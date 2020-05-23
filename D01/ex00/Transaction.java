@@ -1,49 +1,73 @@
 import java.util.UUID;
 
 public class Transaction {
-	private String id = UUID.randomUUID().toString();
-	private User payee = null;
-	private User sender = null;
-	private String translation = "";
-	private int amount = 0;
+	private String id;
+	private User payee;
+	private User sender;
+	private CategoryOfTranslation translation;
+	private int amount;
 
-	public boolean isSetTransaction(User payee, User sender, int amount) {
-		if (this.payee == null && this.sender == null && amount != 0) {
-			SetTransaction(payee, sender, amount);
-			return true;
-		}
-		return false;
+	public Transaction(User payee, User sender, int amount, CategoryOfTranslation translation) {
+		this();
+		setPayee(payee);
+		setSender(sender);
+		setAmount(amount);
+		setTranslation(translation);
 	}
 
-	private void SetTransaction(User payee, User sender, int amount) {
+	public Transaction() {
+		id = UUID.randomUUID().toString();
+	}
+
+	public void setPayee(User payee) {
 		this.payee = payee;
+	}
+
+	public void setSender(User sender) {
 		this.sender = sender;
+	}
+
+	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+
+	private void setTranslation(CategoryOfTranslation translation) {
 		if (amount < 0) {
-			translation = "OUTCOME";
+			this.translation = CategoryOfTranslation.OUTCOME;
+		}
+		else if (amount > 0) {
+			this.translation = CategoryOfTranslation.INCOME;
 		}
 		else {
-			translation = "INCOME";
+			this.translation = translation;
 		}
+		
 	}
 
-	public String GetTranslation() {
+	public CategoryOfTranslation getTranslation() {
 		return translation;
 	}
 
-	public User GetPayee() {
+	public User getPayee() {
 		return payee;
 	}
 
-	public User GetSender() {
+	public User getSender() {
 		return sender;
 	}
 
-	public String GetID() {
+	public String getID() {
 		return id;
 	}
 
-	public int GetAmount() {
+	public int getAmount() {
 		return amount;
+	}
+
+	public String getStringAmount() {
+		if (amount > 0) {
+			return "+" + String.valueOf(amount);
+		}
+		return String.valueOf(amount);
 	}
 }

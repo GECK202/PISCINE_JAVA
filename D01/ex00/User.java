@@ -1,35 +1,44 @@
-import java.util.UUID;
-
 public class User {
-	private String id = UUID.randomUUID().toString();
-	private String name = null;
+	private int id;
+	private String name;
+	private int startBalance;
 	private int balance;
 
-	public boolean isSetUser(String name, int balance) {
-		if (this.name == null) {
-			SetUser(name, balance);
-			return true;
-		}
-		return false;
+	public User(int id, String name, int balance) {
+		setId(id);
+		setName(name);
+		setBalance(balance);
+		startBalance = this.balance;
 	}
 
-	private void SetUser(String name, int balance) {
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setName(String name){
 		this.name = name;
+	}
+
+	public void setBalance (int balance) {
 		if (balance < 0) {
 			balance = 0;
 		}
 		this.balance = balance;
 	}
 
-	public int GetBalance() {
+	public int getBalance() {
 		return balance;
 	}
 
-	public String GetName() {
+	public String getName() {
 		return name;
 	}
 
-	public String GetID() {
+	public int getId() {
 		return id;
+	}
+
+	public int getStartBalance() {
+		return startBalance;
 	}
 }
