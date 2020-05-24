@@ -15,6 +15,14 @@ public class Transaction {
 		setTranslation(translation);
 	}
 
+	public Transaction(User payee, User sender, int amount, CategoryOfTranslation translation, String id) {
+		this.id = id;
+		setPayee(payee);
+		setSender(sender);
+		setAmount(amount);
+		setTranslation(translation);
+	}
+
 	public Transaction() {
 		id = UUID.randomUUID().toString();
 	}

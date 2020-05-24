@@ -56,9 +56,11 @@ public class TransactionsLinkedList implements TransactionsList {
 		int iterator = 0;
 		if (first != null) {
 			array[0] = first.transaction;
+			System.out.println("-" + iterator + " " + array[0].getId());
 			Node tmp = first.next;
 			while(tmp != null) {
 				array[++iterator] = tmp.transaction;
+				System.out.println("-" + iterator + " " + array[0].getId());
 				if (first.next != null) {					
 					tmp = tmp.next;
 				}
