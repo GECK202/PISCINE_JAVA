@@ -83,6 +83,14 @@ public class Menu {
   }
 
   public void selector(int position) {
+    switch(position) {
+      case (1):
+        addUser();
+        break;
+      case (2):
+        printBalance();
+        break;
+    }
 
   }
 }
