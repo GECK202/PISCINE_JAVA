@@ -1,5 +1,5 @@
 public class TransactionsLinkedList implements TransactionsList {
-	
+
 	private Node first;
 	private Node last;
 	private int count;
@@ -28,15 +28,21 @@ public class TransactionsLinkedList implements TransactionsList {
 			Node tmp = first;
 			if (tmp.isFind(id)) {
 				if (tmp.next == null) {
-					tmp.removeNode(first);
+					tmp.transaction = null;
 					first = null;
-					--count;
+					last = null;
+					count = 0;
 					return ;
 				}
-				tmp.removeNode(null);
-				first = tmp.next;
-				--count;
-				return ;
+				else {
+					tmp.transaction = null;
+					first = tmp.next;
+					--count;
+					if (tmp.next == null) {
+						last = null;
+					}
+					return ;
+				}
 			}
 			while (tmp.next != null) {
 				Node prev = tmp;
@@ -44,9 +50,12 @@ public class TransactionsLinkedList implements TransactionsList {
 				if (tmp.isFind(id)) {
 					tmp.removeNode(prev);
 					--count;
+					if (tmp.next == null) {
+						last = prev;
+					}
 					return ;
 				}
-			} 
+			}
 		}
 		throw new TransactionNotFoundException("Transaction with id=" + id + " not found!");
 	}
@@ -56,12 +65,10 @@ public class TransactionsLinkedList implements TransactionsList {
 		int iterator = 0;
 		if (first != null) {
 			array[0] = first.transaction;
-			System.out.println("-" + iterator + " " + array[0].getId());
 			Node tmp = first.next;
 			while(tmp != null) {
 				array[++iterator] = tmp.transaction;
-				System.out.println("-" + iterator + " " + array[0].getId());
-				if (first.next != null) {					
+				if (first.next != null) {
 					tmp = tmp.next;
 				}
 			}

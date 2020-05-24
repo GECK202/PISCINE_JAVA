@@ -1,12 +1,12 @@
 public class TransactionsService {
 
 	//private static TransactionsService instance;
-	
+
 	private UsersArrayList userList;
 
-    public TransactionsService() {
-    	userList = new UsersArrayList();
-    }
+	public TransactionsService() {
+		userList = new UsersArrayList();
+	}
 
     //public static TransactionsService getInstance() {
     //    if (instance == null) {
@@ -15,20 +15,20 @@ public class TransactionsService {
     //    return instance;
    // }
 
-    public void addUser(String userName, int startBalance) {
-    	userList.addUser(userName, startBalance);
-    }
+	 public void addUser(String userName, int startBalance) {
+		 userList.addUser(userName, startBalance);
+	 }
 
-    public String getUserName(int userId) {
-    	return (userList.getUser(userId).getName());
-    }
+  public String getUserName(int userId) {
+  	return (userList.getUser(userId).getName());
+  }
 
-    public int getUserBalance(int userId) {
-    	return (userList.getUser(userId).getBalance());
-    }
+  public int getUserBalance(int userId) {
+  	return (userList.getUser(userId).getBalance());
+  }
 
-    public void addTransaction(int userId1, int userId2, int amount) {
-    	User user1;
+  public void addTransaction(int userId1, int userId2, int amount) {
+		User user1;
 		User user2;
 		Transaction transaction;
 
@@ -41,22 +41,19 @@ public class TransactionsService {
 		}
 		user2 = userList.getUser(userId2);
 		transaction = new Transaction(user1, user2, -amount, CategoryOfTranslation.OUTCOME);
-		System.out.println("add transaction "+transaction.getId());
 		user1.addTransaction(transaction);
 		user2.addTransaction(new Transaction(user2, user1, amount, CategoryOfTranslation.INCOME, transaction.getId()));
 		user1.setBalance(user1.getBalance() - amount);
 		user2.setBalance(user2.getBalance() + amount);
-    }
+	}
 
-    public Transaction[] getTransactions(int userId) {
-    	User user;
-    	user = userList.getUser(userId);
-    	return user.getTransactionsList().toArray();
-    }
+  public Transaction[] getTransactions(int userId) {
+  	User user;
+  	user = userList.getUser(userId);
+  	return user.getTransactionsList().toArray();
+  }
 
-    public void removeTransaction(int userId, String transactionId) {
-    	userList.getUser(userId).removeTransaction(transactionId);
-    }
-
-
+  public void removeTransaction(int userId, String transactionId) {
+  	userList.getUser(userId).removeTransaction(transactionId);
+  }
 }
