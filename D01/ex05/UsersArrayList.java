@@ -7,7 +7,7 @@ public class UsersArrayList implements UsersList {
 		countUser = 0;
 	}
 
-	public void addUser(String name, int balance) {
+	public int addUser(String name, int balance) {
 		int len = userList.length;
 		if (len <= countUser) {
 			User[] tmp = new User[len];
@@ -15,7 +15,9 @@ public class UsersArrayList implements UsersList {
 			userList = new User[(int)(len * 1.5)];
 			userList = arrayCopy(tmp, userList);
 		}
-		userList[countUser++] = new User(name, balance);
+		User user = new User(name, balance);
+		userList[countUser++] = user;
+		return user.getId();
 	}
 
 	public User getUser(int id) throws UserNotFoundException {

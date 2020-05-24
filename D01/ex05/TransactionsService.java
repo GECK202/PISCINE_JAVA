@@ -6,19 +6,23 @@ public class TransactionsService {
 		userList = new UsersArrayList();
 	}
 
-	 public void addUser(String userName, int startBalance) {
-		 userList.addUser(userName, startBalance);
-	 }
+	public int addUser(String userName, int startBalance) {
+		return (userList.addUser(userName, startBalance));
+	}
 
-  public String getUserName(int userId) {
-  	return (userList.getUser(userId).getName());
-  }
+	public User getUser(int userId) {
+		return (userList.getUser(userId));
+	}
 
-  public int getUserBalance(int userId) {
-  	return (userList.getUser(userId).getBalance());
-  }
+	public String getUserName(int userId) {
+		return (userList.getUser(userId).getName());
+	}
 
-  public void addTransaction(int userId1, int userId2, int amount) {
+	public int getUserBalance(int userId) {
+		return (userList.getUser(userId).getBalance());
+	}
+
+	public void addTransaction(int userId1, int userId2, int amount) {
 		User user1;
 		User user2;
 		Transaction transaction;
@@ -38,13 +42,13 @@ public class TransactionsService {
 		user2.setBalance(user2.getBalance() + amount);
 	}
 
-  public Transaction[] getTransactions(int userId) {
-  	return userList.getUser(userId).getTransactionsList().toArray();
-  }
+	public Transaction[] getTransactions(int userId) {
+		return userList.getUser(userId).getTransactionsList().toArray();
+	}
 
-  public void removeTransaction(int userId, String transactionId) {
-  	userList.getUser(userId).removeTransaction(transactionId);
-  }
+	public void removeTransaction(int userId, String transactionId) {
+		userList.getUser(userId).removeTransaction(transactionId);
+	}
 
 	public Transaction[] getIncorrectTransactions() {
 		TransactionsList incorrectList = new TransactionsLinkedList();
