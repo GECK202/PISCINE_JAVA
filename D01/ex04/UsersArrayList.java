@@ -10,7 +10,7 @@ public class UsersArrayList implements UsersList {
 	public void addUser(String name, int balance) {
 		int len = userList.length;
 		if (len <= countUser) {
-			User[] tmp = new User[len]; 
+			User[] tmp = new User[len];
 			tmp = arrayCopy(userList, tmp);
 			userList = new User[(int)(len * 1.5)];
 			userList = arrayCopy(tmp, userList);
@@ -27,7 +27,7 @@ public class UsersArrayList implements UsersList {
 		throw new UserNotFoundException("User with id=" + String.valueOf(id) + " not found!");
 	}
 
-	public int getCountUser() {
+	public int getCountUsers() {
 		return countUser;
 	}
 

@@ -1,19 +1,10 @@
 public class TransactionsService {
 
-	//private static TransactionsService instance;
-
 	private UsersArrayList userList;
 
 	public TransactionsService() {
 		userList = new UsersArrayList();
 	}
-
-    //public static TransactionsService getInstance() {
-    //    if (instance == null) {
-    //        instance = new TransactionsService();
-    //    }
-    //    return instance;
-   // }
 
 	 public void addUser(String userName, int startBalance) {
 		 userList.addUser(userName, startBalance);
@@ -48,12 +39,37 @@ public class TransactionsService {
 	}
 
   public Transaction[] getTransactions(int userId) {
-  	User user;
-  	user = userList.getUser(userId);
-  	return user.getTransactionsList().toArray();
+  	return userList.getUser(userId).getTransactionsList().toArray();
   }
 
   public void removeTransaction(int userId, String transactionId) {
   	userList.getUser(userId).removeTransaction(transactionId);
   }
+
+	public Transaction[] getIncorrectTransactions() {
+		TransactionsList incorrectList = new TransactionsLinkedList();
+		Transaction[] trArr = userList.getUser(1).getTransactionsList().toArray();
+		for (int i = 0; i < trArr.length; i++) {
+			incorrectList.addTransaction(trArr[i]);
+		}
+		for (int i = 1; i < userList.getCountUsers(); i++) {
+			trArr = userList.getUser(i + 1).getTransactionsList().toArray();
+			Transaction[] addedTrArr = incorrectList.toArray();
+			for (int j = 0; j < trArr.length; j++) {
+				boolean addFlag = true;
+				String id = trArr[j].getId();
+				for (int k = 0; k < addedTrArr.length; k++) {
+					if (id.equals(addedTrArr[k].getId())) {
+						incorrectList.removeTransaction(id);
+						addFlag = false;
+						break ;
+					}
+				}
+				if (addFlag) {
+					incorrectList.addTransaction(trArr[j]);
+				}
+			}
+		}
+		return incorrectList.toArray();
+	}
 }

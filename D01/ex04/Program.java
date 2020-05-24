@@ -43,6 +43,11 @@ public class Program {
 		for (int i = 0; i < trArr.length; i++) {
 			System.out.println(trArr[i].getPayee().getName() + "->" + trArr[i].getSender().getName() + ", " + trArr[i].getStringAmount() + ", " + trArr[i].getTranslation() + ", " + trArr[i].getId());
 		}
+		System.out.println("Incorrect transaction:");
+		trArr = service.getIncorrectTransactions();
+		for (int i = 0; i < trArr.length; i++) {
+			System.out.println(trArr[i].getPayee().getName() + "->" + trArr[i].getSender().getName() + ", " + trArr[i].getStringAmount() + ", " + trArr[i].getTranslation() + ", " + trArr[i].getId());
+		}
 
 	}
 }
