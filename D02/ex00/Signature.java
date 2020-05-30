@@ -1,77 +1,50 @@
-import java.io.*;
-import java.util.*;
+
+import java.util.ArrayList;
 
 public class Signature {
-	private HashMap<String, String> map;
-	private int maxKeyLen;
+	private ArrayList<Association> data;
+	private int maxMagicLen;
 
 	public Signature() {
-		map = new HashMap<String, String>();
-		maxKeyLen = 0;
+		data = new ArrayList<Association>();
+		maxMagicLen = 0;
 	}
 
-	private void addElement(String key, String format) {
-		map.put(key, format);
-		maxKeyLen = (key.length() > maxKeyLen) ? key.length() : maxKeyLen;
+	public void addElement(String magic, String type) {
+		data.add(new Association(type, magic));
+		maxMagicLen = (magic.length() > maxMagicLen) ? magic.length() : maxMagicLen;
 	}
 
-	public String getElement(String key) {
-		for(Map.Entry<String, String> element: map.entrySet()) {
-            System.out.println(element.getKey() + " - " + element.getValue());
-		}
-		//String format = map.get(key);
-		//if (format == null) {
-			return "";
-		//}
-		//return format;
-	}
-
-	public boolean readSignaturesFile() {
-		boolean result = true;
-		
-		try(FileInputStream fileInputStream = new FileInputStream("signatures.txt")) {
-			result = convertFileToStrings(fileInputStream);
-		}
-        catch(IOException ex){
-            result = false;
-            System.out.println(ex.getMessage());
-            System.out.println("Ошибка доступа!");
-        }
-        return result;
-	}
-
-	private boolean convertFileToStrings(FileInputStream fileInputStream) {
-		ArrayList<Character> data = new ArrayList<Character>();
-		int i;
-		boolean result = true;
-		try {
-			while((i=fileInputStream.read())!= -1){
-				if (i == 10) {
-					String s = convertListToString(data);					
-					String f[] = s.split(",");
-					addElement(f[1], f[0]);
-					data = new ArrayList<Character>();
-				}
-				else if (i != 32){
-					data.add((char)i);
-				}
+	public String getElement(String magic) {
+		for(Association a : data)
+		{
+			String s = magic.substring(0, a.getMagic().length());
+			if (a.getMagic().equals(s)) {
+				return a.getType();
 			}
 		}
-		catch(IOException ex){
-            result = false;
-            System.out.println(ex.getMessage());
-            System.out.println("Ошибка чтения!");
-        }
-        return result;
+		return "";
 	}
 
-	private String convertListToString(ArrayList<Character> list)
-	{    
-    	StringBuilder builder = new StringBuilder(list.size());
-    	for(Character ch: list)
-    	{
-    	    builder.append(ch);
-    	}
-    	return builder.toString();
+	public int getMaxMagicLen() {
+		return maxMagicLen / 2;
+	}
+
+	private class Association {
+		private String type;
+		private String magic;
+
+		Association (String type, String magic) {
+			this.type = type;
+			this.magic = magic;
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public String getMagic() {
+			return magic;
+		}
 	}
 }
