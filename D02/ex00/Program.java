@@ -9,7 +9,7 @@ public class Program {
 		Parsing parsing = new Parsing();
 		Signature signature = new Signature();
 		Saving saving = new Saving();
-		String fileName = "new/signatures.txt";
+		String fileName = "signatures.txt";
 
 		parsing.readSignaturesFile(signature, fileName);
 		String magic;
