@@ -33,7 +33,7 @@ class Parsing {
 		catch(IOException ex) {
 			System.out.println(ex.getMessage());
 			System.out.println("Ошибка доступа к файлу " + fileName + "!");
-			System.exit(1);
+			//System.exit(1);
 		}
 		return str;
 	}
@@ -45,25 +45,25 @@ class Parsing {
 		String[] f;
 		try {
 
-			while((i=fileInputStream.read())!= -1){				
-				if (i == 10 && (data.size() > 0)) {
-					s = convertListToString(data);				
+			while((i=fileInputStream.read())!= -1){
+				if (((i == 10) || (i == 13)) && (data.size() > 0)) {
+					s = convertListToString(data);
 					f = s.split(",");
 					if (f.length == 2) {
 						signature.addElement(f[1], f[0]);
-					}					
+					}
 					data = new ArrayList<Character>();
 				}
 				else if (i != 32){
 					data.add((char)i);
 				}
 			}
-			if (data.size() > 0) {				
-				s = convertListToString(data);					
+			if (data.size() > 0) {
+				s = convertListToString(data);
 				f = s.split(",");
 				if (f.length == 2) {
 					signature.addElement(f[1], f[0]);
-				}				
+				}
 			}
 		}
 		catch(IOException ex){
