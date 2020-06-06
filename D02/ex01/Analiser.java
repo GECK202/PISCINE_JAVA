@@ -10,10 +10,13 @@ public class Analiser {
 		String str;
 		int n = 0;
 		while ((str = br.readLine())!=null){
-			str = str.replaceAll("[\\W\\d&&[^\\s]]", " ");
+			//str = str.replaceAll("[\\W\\d&&[^\\s\\.]]", " ");
+			str = str.replaceAll("[^\\w\\. ]", " ");
+
 			String[] arr = str.split(" ");
 			for(int i = 0; i < arr.length; i++) {
-				str = arr[i].replaceAll("[\\W]", "");
+				//str = arr[i];//.replaceAll("[\\s\\t^\\.]", "");
+				str = arr[i].replaceAll("^[\\d\\.[\\.\\d]]", "");
 				if (!str.equals("")) {
 					addWord(str.toLowerCase(), dictionary, fileVec);
 					++n;
