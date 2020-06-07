@@ -8,6 +8,9 @@ import java.util.Scanner;
 public class Program {
 	public static void main(String[] args) {
 		Path currentPath;
+		String commandLine;
+		LS ls = new LS();
+		MV mv = new MV();
 		if (args.length != 1) {
 			System.err.println("Argument must be one and content path!");
 			System.exit(1);
@@ -50,29 +53,25 @@ public class Program {
 		//Path root = testFilePath.getRoot();
 		//System.out.println(root);
 		Scanner sc = new Scanner(System.in);
-		while (true) {
+		while (true) {//sc.hasNext()) {
 			System.out.print("-> ");
-			if (sc.hasNext()) {
-				String str = sc.next();
-				if (str.equals("exit")) {
-					System.exit(0);
-				}
-				else if (str.equals("cd")) {
-					System.out.println("cd command!");
-				}
-				else if (str.equals("ls")) {
-					LS ls = new LS();
-					ls.showFiles(currentPath.toString());
-					//System.out.println("ls command!");
-				}
-				else if (str.equals("mv")) {
-					System.out.println("mv command!");
-				}
-				else {
-					System.out.println("Invalid command!");
-				}
+			commandLine = sc.nextLine();
+			String[] command = commandLine.split(" ");
+			if (command[0].equals("exit")) {
+				break ;
 			}
-
+			else if (command[0].equals("cd")) {
+				System.out.println("cd command!");
+			}
+			else if (command[0].equals("ls")) {					
+				ls.showFiles(command, currentPath.toString());
+			}
+			else if (command[0].equals("mv")) {
+				mv.parseArguments(command, currentPath.toString());
+			}
+			else {
+				System.out.println("Invalid command!");
+			}
 		}
 /*
 		Path fileName = testFilePath.getFileName();
