@@ -1,14 +1,15 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
-//import java.nio.file.Paths;
 import java.nio.file.DirectoryStream;
 import java.io.IOException;
 import java.nio.file.DirectoryIteratorException;
 
 public class LS {
 	public void showFiles(String[] command, Path dir) {		
-		//Path dir = Paths.get(nameFolder);
-
+		if (command.length != 1) {
+			System.err.println("arguments not allowed!");
+			return ;
+		}
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
 			for (Path file: stream) {
 				System.out.println(file.getFileName() + " " + getSize(file));

@@ -3,6 +3,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.*;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.DirectoryNotEmptyException;
 
 public class MV {
 	public void parseArguments(String[] command, Path currentPath) {
@@ -23,23 +25,12 @@ public class MV {
 		}
 		pathName = currentPath.resolve(command[2]).normalize();
 		if (Files.isDirectory(pathName)) {
-			System.out.println("Directory to move is  " + pathName.getFileName());
+			pathName = pathName.resolve(file.getFileName().toString());
+			System.out.println("Directory to move is  " + pathName);
 			moveFile(file, pathName);
 			return ;
 		}
-		//else {
-			System.out.println("is not directory");
-		//}
-		//fileName = command[1];
-
-		//System.out.println(" mv OK");
-
-		//pathName = command[2];
-
-		//System.out.print("file="+file);
-		//System.out.print(" from "+pathName);
-		//System.out.println(" mv OK");
-
+		copyFile(file, pathName);
 	}
 
 	private void moveFile(Path src, Path dest) {
@@ -57,40 +48,22 @@ public class MV {
 		}
 	}
 
-	private void copyFile(String src, String dest ) {
-		Path result = null;
-
+	private void copyFile(Path src, Path dest) {
 		try {
-            Files.copy(Paths.get(src), Paths.get(dest), REPLACE_EXISTING);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-
-		try {
-			result =  Files.move(Paths.get(src), Paths.get(dest));
-		} catch (IOException e) {
-			System.out.println("Exception while moving file: " + e.getMessage());
+			Files.copy(src, dest, REPLACE_EXISTING);
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage(), e);
 		}
-		if(result != null) {
-			System.out.println("File moved successfully.");
-		}
-		else {
-			System.out.println("File movement failed.");
-		}
-	}
-
-	private void renameFile(String src, String dest ) {
-		Path result = null;
-		try {
-			result =  Files.move(Paths.get(src), Paths.get(dest));
-		} catch (IOException e) {
-			System.out.println("Exception while moving file: " + e.getMessage());
-		}
-		if(result != null) {
-			System.out.println("File moved successfully.");
-		}
-		else {
-			System.out.println("File movement failed.");
+		if (Files.exists(dest)) {
+			try {
+				Files.delete(src);
+			} catch (NoSuchFileException ex) {
+				System.err.format("%s: no such" + " file or directory%n", src);
+			} catch (DirectoryNotEmptyException ex) {
+				System.err.format("%s not empty%n", src);
+			} catch (IOException ex) {
+				System.err.println(ex);
+			}
 		}
 	}
 }
