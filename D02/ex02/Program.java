@@ -64,15 +64,16 @@ public class Program {
 				System.out.println("cd command!");
 			}
 			else if (command[0].equals("ls")) {					
-				ls.showFiles(command, currentPath.toString());
+				ls.showFiles(command, currentPath);
 			}
 			else if (command[0].equals("mv")) {
-				mv.parseArguments(command, currentPath.toString());
+				mv.parseArguments(command, currentPath);
 			}
 			else {
 				System.out.println("Invalid command!");
 			}
 		}
+		sc.close();
 /*
 		Path fileName = testFilePath.getFileName();
 		System.out.println(fileName);
